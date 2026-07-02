@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>이지메모 — 유튜브 협찬 영상 제작 가이드</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black:  #0f0f0f;
+    --ink:    #1a1a1a;
+    --mid:    #555;
+    --mute:   #999;
+    --rule:   #e8e8e8;
+    --bg:     #ffffff;
+    --tag-r:  #fef2f2;
+    --tag-rc: #d32f2f;
+    --tag-g:  #f0faf4;
+    --tag-gc: #1a7a40;
+    --accent: #1a56db;
+  }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px 120px;
+  }
+
+  /* ── 헤더 ── */
+  header {
+    padding: 72px 0 56px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 64px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--mute);
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-size: clamp(26px, 5vw, 36px);
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--black);
+    margin-bottom: 16px;
+  }
+  .subtitle { font-size: 15px; color: var(--mid); font-weight: 300; }
+
+  /* ── 섹션 ── */
+  section {
+    padding: 52px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  section:last-of-type { border-bottom: none; }
+
+  .sec-label {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 20px;
+    line-height: 1.35;
+  }
+  h3 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--mute);
+    margin: 32px 0 12px;
+  }
+  h3:first-of-type { margin-top: 0; }
+  p {
+    font-size: 14px;
+    color: var(--mid);
+    margin-bottom: 12px;
+    font-weight: 300;
+  }
+  p:last-child { margin-bottom: 0; }
+
+  /* ── 목차 ── */
+  .toc { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .toc-item {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 13.5px;
+    color: var(--mid);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color .15s, background .15s;
+  }
+  .toc-item:nth-child(odd) { padding-right: 20px; }
+  .toc-item:hover { color: var(--accent); }
+  .toc-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    min-width: 18px;
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+  }
+
+  /* ── 태그/배지 ── */
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 2px;
+    font-weight: 600;
+    white-space: nowrap;
+    vertical-align: middle;
+    line-height: 1.6;
+  }
+  .tag-r  { background: var(--tag-r);  color: var(--tag-rc); }
+  .tag-g  { background: var(--tag-g);  color: var(--tag-gc); }
+  .tag-b  { background: #eff6ff; color: var(--accent); }
+
+  /* ── 키워드 박스 ── */
+  .keyword-box {
+    background: var(--black);
+    color: #fff;
+    border-radius: 4px;
+    padding: 20px 24px;
+    margin: 20px 0;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .keyword-box span {
+    font-size: 11px;
+    font-weight: 300;
+    opacity: .5;
+    display: block;
+    margin-bottom: 4px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  /* ── 제목 예시 ── */
+  .title-examples { margin: 16px 0; }
+  .title-ex {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 13.5px;
+    color: var(--ink);
+    font-weight: 300;
+  }
+  .title-ex:first-child { border-top: 1px solid var(--rule); }
+  .ex-num { font-size: 11px; font-weight: 700; color: var(--mute); min-width: 18px; padding-top: 2px; flex-shrink: 0; }
+
+  /* ── 기능 목록 ── */
+  .feature-list { margin: 4px 0; }
+  .feature-item {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 0 24px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: start;
+  }
+  .feature-item:first-child { border-top: 1px solid var(--rule); }
+  .feature-name {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--ink);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    line-height: 1.5;
+  }
+  .feature-desc { font-size: 13.5px; color: var(--mid); font-weight: 300; line-height: 1.6; }
+
+  /* ── 가로 타임라인 테이블 ── */
+  .tl-table-wrap {
+    overflow-x: auto;
+    margin: 4px 0;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tl-table {
+    width: 100%;
+    min-width: 540px;
+    border-collapse: collapse;
+  }
+  .tl-table th {
+    background: var(--black);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 10px 14px;
+    text-align: center;
+    border-right: 1px solid #333;
+    white-space: nowrap;
+    letter-spacing: .02em;
+  }
+  .tl-table th:last-child { border-right: none; }
+  .tl-table td {
+    padding: 12px 14px;
+    vertical-align: top;
+    border-right: 1px solid var(--rule);
+    border-top: 1px solid var(--rule);
+    font-size: 13px;
+    color: var(--mid);
+    font-weight: 300;
+    line-height: 1.55;
+  }
+  .tl-table td:last-child { border-right: none; }
+  .tl-table tr:last-child td { border-bottom: 1px solid var(--rule); }
+  .tl-time-cell {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    text-align: center;
+    background: #f8faff;
+  }
+  .tl-label-cell {
+    font-weight: 600;
+    color: var(--ink);
+    font-size: 13px;
+    text-align: center;
+  }
+
+  /* ── 참고 안내 박스 ── */
+  .note-box {
+    background: #f8f8f8;
+    border-radius: 4px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--mid);
+    font-weight: 300;
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+  .note-box b { color: var(--ink); font-weight: 600; }
+
+  /* ── DO/DON'T ── */
+  .do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 4px 0; }
+  .do-col h3  { color: var(--tag-gc); margin-top: 0; }
+  .dont-col h3 { color: var(--tag-rc); margin-top: 0; }
+  .rule-list { list-style: none; font-size: 13.5px; color: var(--mid); font-weight: 300; }
+  .rule-list li { padding: 8px 0; border-bottom: 1px solid var(--rule); display: flex; gap: 8px; }
+
+  /* ── 알림 박스 ── */
+  .notice {
+    border-left: 2px solid;
+    padding: 13px 16px;
+    margin: 18px 0;
+    font-size: 13.5px;
+    line-height: 1.65;
+    font-weight: 300;
+  }
+  .notice strong { font-weight: 700; }
+  .notice-warn { border-color: #e65100; background: #fff8f5; color: #6d3a00; }
+  .notice-info { border-color: var(--accent); background: #f5f9ff; color: #1a3a6d; }
+
+  /* ── 강조 텍스트 ── */
+  .highlight { background: #fffbe6; padding: 1px 3px; border-radius: 2px; font-weight: 600; color: var(--ink); }
+  .bold-val { font-weight: 700; color: var(--black); font-size: 15px; }
+
+  /* ── 고지 문구 박스 ── */
+  .disclosure-box {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 16px 18px;
+    margin: 10px 0;
+    font-size: 13.5px;
+    color: var(--mid);
+    font-weight: 300;
+    line-height: 1.65;
+  }
+
+  /* ── 체크리스트 섹션 (접기/펼치기) ── */
+  .cl-group { margin-bottom: 4px; }
+  .cl-group-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 14px 0 10px;
+    border-bottom: 1px solid var(--rule);
+    user-select: none;
+  }
+  .cl-group-header:first-of-type { padding-top: 0; }
+  .cl-group-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+  .cl-toggle {
+    font-size: 11px;
+    color: var(--mute);
+    font-weight: 500;
+    transition: color .15s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .cl-toggle-icon {
+    display: inline-block;
+    transition: transform .2s;
+    font-style: normal;
+  }
+  .cl-group.collapsed .cl-toggle-icon { transform: rotate(-90deg); }
+  .cl-group-header:hover .cl-toggle { color: var(--ink); }
+
+  .cl-body { overflow: hidden; transition: max-height .25s ease; }
+  .cl-group.collapsed .cl-body { max-height: 0 !important; }
+
+  /* 체크 아이템 */
+  .check-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: 13.5px;
+    color: var(--mid);
+    font-weight: 300;
+    cursor: pointer;
+    transition: background .1s;
+  }
+  .check-item:hover { background: #fafafa; }
+  .check-item .box {
+    width: 17px; height: 17px;
+    border: 1.5px solid #ccc;
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s, border-color .15s;
+    font-size: 11px;
+    color: #fff;
+    font-weight: 700;
+  }
+  .check-item.checked .box {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .check-item.checked .box::after { content: '✓'; }
+  .check-item.checked > span,
+  .check-item.checked > div { opacity: .45; text-decoration: line-through; }
+  .check-item b { color: var(--ink); font-weight: 600; }
+
+  /* ── 연락처 ── */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0; }
+  .contact-card { border: 1px solid var(--rule); border-radius: 4px; padding: 16px 18px; }
+  .contact-label { font-size: 10.5px; font-weight: 700; color: var(--mute); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+  .contact-val { font-size: 13.5px; font-weight: 500; color: var(--ink); line-height: 1.6; }
+  .contact-sub { font-size: 12px; font-weight: 300; color: var(--mute); margin-top: 4px; line-height: 1.55; }
+
+  /* ── 푸터 ── */
+  footer { margin-top: 80px; padding-top: 28px; border-top: 1px solid var(--rule); font-size: 11.5px; color: var(--mute); font-weight: 300; }
+
+  @media (max-width: 520px) {
+    .toc { grid-template-columns: 1fr; }
+    .toc-item:nth-child(odd) { padding-right: 0; }
+    .do-dont { grid-template-columns: 1fr; gap: 0; }
+    .feature-item { grid-template-columns: 1fr; gap: 4px; }
+    .contact-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── 헤더 로고 영역 ── */
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+  }
+  .site-logo {
+    height: 28px;
+    width: auto;
+    display: block;
+  }
+  .header-top .eyebrow {
+    margin-bottom: 0;
+  }
+
+
+  /* ── 소재 다운로드 ── */
+  .asset-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin: 4px 0 0;
+  }
+  .asset-card {
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .asset-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    min-height: 90px;
+  }
+  .asset-preview img {
+    max-height: 44px;
+    max-width: 100%;
+    object-fit: contain;
+    display: block;
+  }
+  .asset-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-top: 1px solid var(--rule);
+    gap: 8px;
+  }
+  .asset-name {
+    font-size: 12px;
+    color: var(--mid);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+  .asset-dl {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+    padding: 4px 10px;
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    transition: background .15s, color .15s;
+    flex-shrink: 0;
+  }
+  .asset-dl:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+  @media (max-width: 520px) {
+    .asset-grid { grid-template-columns: 1fr; }
+  }
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 헤더 -->
+  <header>
+    <div class="header-top">
+      <img class="site-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJAAAABBCAYAAAA+JC0yAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDkuMS1jMDAyIDc5LmExY2QxMmY0MSwgMjAyNC8xMS8wOC0xNjowOToyMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIDI2LjQgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjY4MUNCRjMzRDVBRTExRjA4MzNDQTI4MTdBNTNDNDRCIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjY4MUNCRjM0RDVBRTExRjA4MzNDQTI4MTdBNTNDNDRCIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NjgxQ0JGMzFENUFFMTFGMDgzM0NBMjgxN0E1M0M0NEIiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NjgxQ0JGMzJENUFFMTFGMDgzM0NBMjgxN0E1M0M0NEIiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4jpSbpAAAIx0lEQVR42uxc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" alt="ezLab 로고">
+      <p class="eyebrow">Creator Brief · 대외비</p>
+    </div>
+    <h1>이지메모 (ezMemo)<br>유튜브 협찬 영상 제작 가이드</h1>
+    <p class="subtitle">크리에이터가 영상 제작 전 반드시 확인해야 할 내용을 담았습니다.</p>
+  </header>
+
+  <!-- 01 목차 -->
+  <section id="toc">
+    <p class="sec-label">Contents</p>
+    <h2>목차</h2>
+    <nav class="toc">
+      <a class="toc-item" href="#overview"><span class="toc-num">01</span>캠페인 개요</a>
+      <a class="toc-item" href="#keyword"><span class="toc-num">02</span>키워드 &amp; 제목</a>
+      <a class="toc-item" href="#features"><span class="toc-num">03</span>필수 강조 기능</a>
+      <a class="toc-item" href="#timeline"><span class="toc-num">04</span>권장 영상 구성</a>
+      <a class="toc-item" href="#guidelines"><span class="toc-num">05</span>제작 가이드라인</a>
+      <a class="toc-item" href="#spec"><span class="toc-num">06</span>제작 조건</a>
+      <a class="toc-item" href="#disclosure"><span class="toc-num">07</span>공정위 고지</a>
+      <a class="toc-item" href="#checklist"><span class="toc-num">08</span>최종 체크리스트</a>
+      <a class="toc-item" href="#contact"><span class="toc-num">09</span>담당자 연락처</a>
+      <a class="toc-item" href="#assets"><span class="toc-num">10</span>썸네일 소재 다운로드</a>
+    </nav>
+  </section>
+
+  <!-- 01 캠페인 개요 -->
+  <section id="overview">
+    <p class="sec-label">01 · Overview</p>
+    <h2>캠페인 개요</h2>
+    <h3>브랜드</h3>
+    <p>이지메모(ezMemo)는 생각과 기록 사이의 부담을 없애는 PC 메모 프로그램입니다. 복잡한 기능 없이 빠르게 쓰고 바로 확인할 수 있는 것이 핵심입니다.</p>
+    <h3>캠페인 목표</h3>
+    <p>'윈도우 메모 대체'를 찾는 사용자에게 이지메모를 자연스럽게 소개하고, 실제 다운로드를 유도합니다.</p>
+    <h3>타겟 시청자</h3>
+    <p>PC를 자주 사용하는 20–40대 직장인 및 학생. 윈도우 기본 스티커 메모의 한계를 느끼거나, PC↔모바일 연동이 가능한 무료 메모 프로그램을 찾는 사용자.</p>
+    <h3>핵심 포지셔닝</h3>
+    <p>경쟁 앱을 직접 비방하지 않고, 불편함에 공감한 뒤 이지메모를 자연스러운 대안으로 제시하는 '실사용 리뷰' 톤을 권장합니다.</p>
+  </section>
+
+  <!-- 02 키워드 & 제목 -->
+  <section id="keyword">
+    <p class="sec-label">02 · SEO</p>
+    <h2>키워드 &amp; 제목 가이드</h2>
+    <div class="keyword-box">
+      <span>Google SEO 필수 키워드</span>
+      윈도우 메모 대체
+    </div>
+    <p>위 키워드를 영상 제목에 자연스럽게 포함해 주세요. 보조 키워드(PC 메모장, 스티커 메모, 무료 메모 앱 등)는 태그 및 설명란에 활용하세요.</p>
+    <h3>제목 예시</h3>
+    <div class="title-examples">
+      <div class="title-ex"><span class="ex-num">A</span>이걸로 업무 효율 최대치까지 끌어올렸습니다. | 윈도우 메모 대체 이지메모 솔직 리뷰</div>
+      <div class="title-ex"><span class="ex-num">B</span>윈도우 메모 대체 드디어 찾았다 — 이지메모 진짜 써봤습니다</div>
+      <div class="title-ex"><span class="ex-num">C</span>스티커 메모 한계 느꼈다면? 이지메모로 갈아탄 이유 (모바일 연동까지)</div>
+    </div>
+    <p style="margin-top:12px">채널 스타일에 맞게 자유롭게 변형하되, 필수 키워드 포함 여부만 지켜주세요.</p>
+  </section>
+
+  <!-- 03 필수 강조 기능 -->
+  <section id="features">
+    <p class="sec-label">03 · Features</p>
+    <h2>필수 강조 기능</h2>
+    <p>아래 기능을 영상에서 직접 시연해 주세요. <span class="tag tag-r">필수</span> 항목은 반드시 포함해야 합니다.</p>
+    <div class="feature-list">
+      <div class="feature-item">
+        <div class="feature-name">윈도우 스티커 메모 상위 호환&nbsp;<span class="tag tag-r">필수</span></div>
+        <div class="feature-desc">기존 사용자에게 친숙한 UI이지만 더 깔끔하고 편리합니다. 직접 비교 화면을 보여주면 효과적입니다.</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-name">모바일 연동&nbsp;<span class="tag tag-r">필수</span></div>
+        <div class="feature-desc">'이지메모 모바일' 앱과 연동해 PC에서 작성한 메모를 스마트폰에서 바로 확인·편집할 수 있습니다.</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-name">바탕화면 메모 위젯</div>
+        <div class="feature-desc">포스트잇처럼 바탕화면에 상시 노출. 클릭 없이 바로 보이는 접근성이 강점입니다.</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-name">그룹별 저장</div>
+        <div class="feature-desc">카테고리 분류로 메모가 쌓여도 정리가 됩니다. '많이 써도 복잡하지 않다'는 메시지로 전달하세요.</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-name">암호 기능</div>
+        <div class="feature-desc">단순·빠른 앱이지만 개인 기록 보안도 갖췄다는 신뢰감을 전달할 수 있습니다.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 권장 영상 구성 -->
+  <section id="timeline">
+    <p class="sec-label">04 · Structure</p>
+    <h2>권장 영상 구성 <span style="font-weight:300;font-size:16px;color:var(--mid)">7~10분</span></h2>
+    <div class="note-box">
+      해당 구성은 영상 방향성 수립을 보조하기 위해 예시로 제안드리는 <b>단순 참고용 구성</b>이며, 해당 구성과 무관하게 채널핏에 맞게 자유롭게 기획이 가능합니다.
+    </div>
+    <div class="tl-table-wrap">
+      <table class="tl-table">
+        <thead>
+          <tr>
+            <th>00:00~00:45</th>
+            <th>00:45~02:00</th>
+            <th>02:00~05:30</th>
+            <th>05:30~07:30</th>
+            <th>07:30~09:00</th>
+            <th>09:00~끝</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tl-label-cell">훅 — 공감 유발</td>
+            <td class="tl-label-cell">이지메모 첫인상</td>
+            <td class="tl-label-cell">핵심 기능 시연<br><span class="tag tag-r" style="font-size:10px;margin-top:4px;display:inline-block">필수 2가지 포함</span></td>
+            <td class="tl-label-cell">부가 기능 소개</td>
+            <td class="tl-label-cell">솔직한 총평</td>
+            <td class="tl-label-cell">CTA + 협찬 고지</td>
+          </tr>
+          <tr>
+            <td>기존 메모 앱 불편함 공감으로 시작</td>
+            <td>설치~실행 속도, 가볍고 빠른 첫인상 강조</td>
+            <td>스티커 메모 비교 → 모바일 연동 순 권장</td>
+            <td>위젯·그룹·암호 기능 소개</td>
+            <td>장단점 균형 있게 언급</td>
+            <td>다운로드 링크 안내 + 협찬 고지</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 05 제작 가이드라인 -->
+  <section id="guidelines">
+    <p class="sec-label">05 · Guidelines</p>
+    <h2>제작 가이드라인</h2>
+    <p>채널 고유의 목소리를 유지하면서, 아래 기준을 지켜주세요.</p>
+    <div class="do-dont">
+      <div class="do-col">
+        <h3>권장</h3>
+        <ul class="rule-list">
+          <li data-icon="✓">실제 화면을 보여주며 자연스럽게 설명</li>
+          <li data-icon="✓">채널 고유의 편집 스타일 유지</li>
+          <li data-icon="✓">장단점을 솔직하게 균형 있게 언급</li>
+          <li data-icon="✓">타겟 시청자 시점에서 공감 유도</li>
+          <li data-icon="✓">설명란 상단에 다운로드 링크 배치</li>
+        </ul>
+      </div>
+      <div class="dont-col">
+        <h3>지양</h3>
+        <ul class="rule-list">
+          <li data-icon="✕">근거 없는 과장 칭찬</li>
+          <li data-icon="✕">경쟁사 앱 직접 비방</li>
+          <li data-icon="✕">스크립트를 그대로 읽는 듯한 멘트</li>
+          <li data-icon="✕">미지원 기능을 있다고 소개</li>
+          <li data-icon="✕">공정위 고지 문구 누락</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 제작 조건 -->
+  <section id="spec">
+    <p class="sec-label">06 · Spec</p>
+    <h2>제작 조건</h2>
+
+    <h3>영상 사양</h3>
+    <div class="feature-list">
+      <div class="feature-item">
+        <div class="feature-name"><strong>분량</strong></div>
+        <div class="feature-desc"><strong style="color:var(--black);font-size:15px;font-weight:700">7~10분</strong></div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-name">해상도</div>
+        <div class="feature-desc">1080p (FHD) 이상</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-name">포맷</div>
+        <div class="feature-desc">MP4 (H.264)</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-name">화면 녹화</div>
+        <div class="feature-desc">앱 시연 화면 포함 필수</div>
+      </div>
+    </div>
+
+    <h3>다운로드 링크</h3>
+    <div class="notice notice-warn">
+      <strong>성과 측정 URL은 담당자가 별도 전달합니다.</strong> 반드시 전달받은 링크만 사용해 주세요. 임의 링크를 사용하면 성과 집계가 불가합니다.
+    </div>
+
+    <h3>업로드 최적화</h3>
+    <p>설명란 구성 <span class="highlight">권장</span> 순서: <strong>①&nbsp;기존 채널 핏에 맞는 영상 설명·요약</strong> → <strong>②&nbsp;다운로드 링크</strong> → <strong>③&nbsp;공정위 고지 문구</strong></p>
+    <p style="margin-top:10px">태그 예시: 이지메모, ezMemo, 윈도우 메모 대체, PC 메모장, 무료 메모 앱, 스티커 메모, 메모 위젯</p>
+  </section>
+
+  <!-- 07 공정위 고지 -->
+  <section id="disclosure">
+    <p class="sec-label">07 · Disclosure</p>
+    <h2>공정위 고지 <span class="tag tag-r">법적 의무</span></h2>
+    <div class="notice notice-warn">
+      공정거래위원회 지침에 따라 경제적 대가를 받은 사실을 반드시 명시해야 합니다. 미표시 시 법적 제재 및 채널 제재 가능성이 있습니다.
+    </div>
+    <h3>삽입 위치 (모두 필수)</h3>
+    <p>① 영상 설명란 (첫 번째 또는 마지막 단락)<br>
+       ② 영상 내 자막 또는 구두 언급 (시작 후 1분 이내 권장)<br>
+       ③ 유튜브 스튜디오 → '유료 광고 포함' 토글 ON</p>
+    <h3>권장 고지 문구</h3>
+    <div class="disclosure-box">본 영상은 이지메모로부터 제작비를 지원받아 제작되었습니다.</div>
+    <div class="disclosure-box">이 영상은 이지메모의 협찬을 받아 제작된 광고 콘텐츠입니다.</div>
+    <p style="margin-top:12px">두 문구 중 하나를 선택하거나 동일한 의미로 자유롭게 변형하실 수 있습니다.</p>
+  </section>
+
+  <!-- 08 최종 체크리스트 -->
+  <section id="checklist">
+    <p class="sec-label">08 · Checklist</p>
+    <h2>업로드 전 최종 체크리스트</h2>
+    <p>각 항목을 클릭해 완료 여부를 체크할 수 있습니다. 소제목을 클릭하면 항목을 접고 펼칠 수 있습니다.</p>
+
+    <!-- 콘텐츠 -->
+    <div class="cl-group" id="clg-content">
+      <div class="cl-group-header" onclick="toggleGroup('clg-content')">
+        <span class="cl-group-title">콘텐츠</span>
+        <span class="cl-toggle"><i class="cl-toggle-icon">▾</i> 접기</span>
+      </div>
+      <div class="cl-body">
+        <div class="check-item" onclick="toggleCheck(this)"><div class="box"></div><div><b>제목에 '윈도우 메모 대체' 키워드 포함</b> <span class="tag tag-r">필수</span></div></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="box"></div><div><b>윈도우 스티커 메모 상위 호환 기능 시연·언급</b> <span class="tag tag-r">필수</span></div></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="box"></div><div><b>모바일 연동 기능 시연·언급</b> <span class="tag tag-r">필수</span></div></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="box"></div><span>바탕화면 위젯·그룹·암호 기능 소개</span></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="box"></div><span>경쟁사 직접 비방 표현 없음 확인</span></div>
+      </div>
+    </div>
+
+    <!-- 업로드 설정 -->
+    <div class="cl-group" id="clg-upload">
+      <div class="cl-group-header" onclick="toggleGroup('clg-upload')">
+        <span class="cl-group-title">업로드 설정</span>
+        <span class="cl-toggle"><i class="cl-toggle-icon">▾</i> 접기</span>
+      </div>
+      <div class="cl-body">
+        <div class="check-item" onclick="toggleCheck(this)"><div class="box"></div><div><b>전달받은 성과 측정 URL 다운로드 링크 삽입</b> <span class="tag tag-r">필수</span></div></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="box"></div><div><b>'유료 광고 포함' 토글 ON</b> <span class="tag tag-r">필수</span></div></div>
+      </div>
+    </div>
+
+    <!-- 법적 고지 -->
+    <div class="cl-group" id="clg-legal">
+      <div class="cl-group-header" onclick="toggleGroup('clg-legal')">
+        <span class="cl-group-title">법적 고지</span>
+        <span class="cl-toggle"><i class="cl-toggle-icon">▾</i> 접기</span>
+      </div>
+      <div class="cl-body">
+        <div class="check-item" onclick="toggleCheck(this)"><div class="box"></div><div><b>설명란 공정위 고지 문구 삽입</b> <span class="tag tag-r">필수</span></div></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="box"></div><div><b>영상 내 자막 또는 구두 협찬 고지 완료</b> <span class="tag tag-r">필수</span></div></div>
+      </div>
+    </div>
+
+    <!-- 전달 -->
+    <div class="cl-group" id="clg-deliver">
+      <div class="cl-group-header" onclick="toggleGroup('clg-deliver')">
+        <span class="cl-group-title">전달</span>
+        <span class="cl-toggle"><i class="cl-toggle-icon">▾</i> 접기</span>
+      </div>
+      <div class="cl-body">
+        <div class="check-item" onclick="toggleCheck(this)"><div class="box"></div><span>업로드 전 최종본 담당자 공유 및 승인 확인</span></div>
+        <div class="check-item" onclick="toggleCheck(this)"><div class="box"></div><span>업로드 후 영상 URL 담당자에게 전달</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 담당자 연락처 -->
+  <section id="contact">
+    <p class="sec-label">09 · Contact</p>
+    <h2>담당자 연락처</h2>
+    <p>궁금한 사항은 아래 담당자에게 연락해 주세요.</p>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="contact-label">담당자</div>
+        <div class="contact-val">정해원</div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-label">연락처</div>
+        <div class="contact-val">070-4672-2232</div>
+      </div>
+      <div class="contact-card" style="grid-column: 1 / -1">
+        <div class="contact-label">이메일</div>
+        <div class="contact-val">hwjeong@enliple.com</div>
+        <div class="contact-sub">
+          참조 요청 (필수X): marketing@enliple.com<br>
+          메일 누락 방지를 위해 참조해 주시면 감사하겠습니다.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 로고 & 소재 다운로드 -->
+  <section id="assets">
+    <p class="sec-label">Appendix · Assets</p>
+    <h2>썸네일 소재 다운로드</h2>
+    <p>아래 이미지를 썸네일 제작 등에 자유롭게 활용해 주세요.</p>
+
+    <h3>이지메모 로고</h3>
+    <div class="asset-grid">
+        <div class="asset-card">
+          <div class="asset-preview" style="background:#f5f5f5;border:1px solid #e8e8e8">
+            <img src="data:image/png;base64,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" alt="이지메모 아이콘 + 로고타입">
+          </div>
+          <div class="asset-info">
+            <span class="asset-name">이지메모 아이콘 + 로고타입</span>
+            <a class="asset-dl" href="data:image/png;base64,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" download="이지메모.png">다운로드</a>
+          </div>
+        </div>
+        <div class="asset-card">
+          <div class="asset-preview" style="background:#f5f5f5;border:1px solid #e8e8e8">
+            <img src="data:image/png;base64,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" alt="이지메모 로고타입 (블랙)">
+          </div>
+          <div class="asset-info">
+            <span class="asset-name">이지메모 로고타입 (블랙)</span>
+            <a class="asset-dl" href="data:image/png;base64,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" download="이지메모_01.png">다운로드</a>
+          </div>
+        </div>
+        <div class="asset-card">
+          <div class="asset-preview" style="background:#1a1a1a;border:1px solid #333">
+            <img src="data:image/png;base64,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" alt="이지메모 로고타입 (화이트)">
+          </div>
+          <div class="asset-info">
+            <span class="asset-name">이지메모 로고타입 (화이트)</span>
+            <a class="asset-dl" href="data:image/png;base64,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" download="이지메모_02.png">다운로드</a>
+          </div>
+        </div>
+        <div class="asset-card">
+          <div class="asset-preview" style="background:#f5f5f5;border:1px solid #e8e8e8">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMQAAAA+CAYAAAB0r7QUAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDkuMS1jMDAyIDc5LmExY2QxMmY0MSwgMjAyNC8xMS8wOC0xNjowOToyMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIDI2LjQgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjNGOEQ3NTNERDRFQzExRjA5REU4QkIwNUEyOTAwQUNEIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjNGOEQ3NTNFRDRFQzExRjA5REU4QkIwNUEyOTAwQUNEIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6M0Y4RDc1M0JENEVDMTFGMDlERThCQjA1QTI5MDBBQ0QiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6M0Y4RDc1M0NENEVDMTFGMDlERThCQjA1QTI5MDBBQ0QiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz61C6+6AAAM+0lEQVR42uxd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" alt="이지메모 로고타입 (컬러)">
+          </div>
+          <div class="asset-info">
+            <span class="asset-name">이지메모 로고타입 (컬러)</span>
+            <a class="asset-dl" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMQAAAA+CAYAAAB0r7QUAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDkuMS1jMDAyIDc5LmExY2QxMmY0MSwgMjAyNC8xMS8wOC0xNjowOToyMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIDI2LjQgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjNGOEQ3NTNERDRFQzExRjA5REU4QkIwNUEyOTAwQUNEIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjNGOEQ3NTNFRDRFQzExRjA5REU4QkIwNUEyOTAwQUNEIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6M0Y4RDc1M0JENEVDMTFGMDlERThCQjA1QTI5MDBBQ0QiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6M0Y4RDc1M0NENEVDMTFGMDlERThCQjA1QTI5MDBBQ0QiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz61C6+6AAAM+0lEQVR42uxd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" download="이지메모_03.png">다운로드</a>
+          </div>
+        </div>
+    </div>
+
+    <h3>ezLab 로고</h3>
+    <div class="asset-grid">
+        <div class="asset-card">
+          <div class="asset-preview" style="background:#f5f5f5;border:1px solid #e8e8e8">
+            <img src="data:image/png;base64,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" alt="ezLab 로고 (컬러 아이콘)">
+          </div>
+          <div class="asset-info">
+            <span class="asset-name">ezLab 로고 (컬러 아이콘)</span>
+            <a class="asset-dl" href="data:image/png;base64,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" download="이지랩_01.png">다운로드</a>
+          </div>
+        </div>
+        <div class="asset-card">
+          <div class="asset-preview" style="background:#f5f5f5;border:1px solid #e8e8e8">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJAAAABBCAYAAAA+JC0yAAAAAXNSR0IArs4c6QAAAARzQklUCAgICHwIZIgAAAZXSURBVHhe7Zs/rGdDFMd3awoN3SZPdELWhiARUdAIi2ITBaFDCCIhEgkFiUhINisIJVnRKBD/IhQKwWZVlMTT+dMg1Jxv9s0z5t2Z852Zc++8/d3zS048e2fOnDnnM2f+3LkHD/jPPdDhgYMddb2qe+CAA+QQdHnAAepyn1d2gJyBLg84QF3u88oOkDPQ5QEHqMt9XtkBcga6POAAdbnPKztAzkCXBxygLvd5ZQdoMxi4Q7pxUunKpfL8O+vuOkDWHh2jzwGa0e+XiO5vFf0vyvOHZ7RhbtUO0IwedoDOONensEbIHCAHqBGdM9UcIAfIAVI84GugLkTKlT0DeQbqwssB2icAbYkd14hcuRNO/H25CLbA+J0S+V7k64pwn5CyD1WUZ4qmZ1sjATpHDL5a5IjIoaSvH8j//7Djty/kv9tR5x6Vv5/PdHbq7K5mCrtK9F4rgl3ZXVEbb8jfP4mcFvlS5LcWZ0/VuUX+8R6RmxiFUuYbkeMi74j8rdSxBghtX5G0OQIggHObyCMiGGTMD0C9JQKYfixUaAXoPtF5tCKOj0nZ1zWQSifRcPxzFQ2mfUYwHxf5rOAMa4DulLbeHAwQRvjLFeAwcMVlWgGqbSeUn/Lprq4cQNdLiU9bW0zqgeQXMrosAcIIvl0kzXpLZiBLv+XcvzRAsCMbwylj5nBCzgBLgG7IZLulAJrDb1MQjQAoC1HLgrM1Md0qFd9LKlsBVHqXtQRAW9Kvt2ectkZOYXHbewZpCtD7UppdLIfdF7uLwproRpF4dW8FUOk9zxIAWfWDGZyjMhBsQwyvi5cJsTFMCoaCpycyCRaOTxLwpVPZvVLnYsVrGqClNRZUzw0Qoz/uInyInRZ+FxE+S91jBVBIAOdJA/F2XoP4f4vq2Bgt+6Djx0S2My1g6/oKYcy5McGKtThCeLdQZiqrpcWZAPdc5yid2cS24JwFZzvppS7Yh0HABrEHoNwRy/nS/oMiSALaD5uVm0OhYMyW/EPp7AHli9u5HYVMsHKL3dRwAPm5SOkcxcqmHoBw8Kad9UD/E4WBg74+K6JlW/ioFSAtAUA3ZoRXNYLk+YUi27Ex2khHWQT+F0K5dnakTTmhCa0zuW17aiIDdStAzMDbs27I+JAZMD0ATW1ipkxh1nO7ugLNWrAIbugiTLCQUn9VNLKZbE6AsPb7SrETJ8Cvkd5h4tCSgaZO6HMmMWvh3cwfjGGoI32gFsNa4G6llGYPA2FoYk6AmHdQeBfGvh9kgGwBqMZfyIR/KfHZ1TcCoFwargl4zfXM0QBZ2zo3QIjDP/sZIG00aLvBZ6RzT6l57r8CowFip1pYfNZmIGbuxbxn8ftZlOResDKL+QukPnXVYMfYOQFidLObBpjLxKElA82+BmIWTrWBq4WN2YUw2/a0XSbIWlbM9WVLHmjHH6jL+I7pf276Z9Zis+7CmF0PM5IQrMMKOZ9kMoh2IMduh1sACod8LPQ4zghZkDkHgv77RXL3o/bLOZAWg+CfPedAeIDLQ9ppaGk+x2jUXijmIGBGcrjBpwUZl9m2o0JMBtJ0ps/jTMg6HfbDtnT63oiTaDiImcZQDpnoY5FwJI/g43qr9m12qDt1N0jbttcEON31zA1Qrf74XVi4FlzTv5Y10JT+8C6s9n1c9l0Ym4VqOhuXzWUfZudR0+bSAME2ywGg9dUKIK2dqefFt/GogGzCLApbGs8dqGnb9tq2RgCENeRHIto7sdq+TJUfCdCeGC51IzF3nM/sHmqdPgIg2MguAWr7k5YfBdDkJmqJO9G5rTe7ba11+CiAloJoBEBVd6JDwDCdvSTC3lBMA4358gGR3HsgdvdyNgEEW3u+ZoHPPhQp3cupBQgn93+K5L4z0/zb9FVGrBSpGd83sSCx34XNtfAcmYGC31q+C4u/wyqtC2sBCv5gb42GPnR/F5aSiYwUf5kaLj/hkOx3kZYvUzX6N+E5AneZCK7uxtv2pi9BDRwSvkxNv5TFtv4PERyMmn6ZamCzq9hUD+QW0ZvaX++XsQccIGOHrk2dA7S2iBv31wEyduja1DlAa4u4cX8dIGOHrk2dA7S2iBv31wEyduja1DlAa4u4cX8dIGOHrk2dA7S2iBv31wEyduja1DlAa4u4cX8dIGOHrk2dA7S2iBv31wEyduja1P0LRxGVUSIlMvQAAAAASUVORK5CYII=" alt="ezLab 로고타입 (블랙)">
+          </div>
+          <div class="asset-info">
+            <span class="asset-name">ezLab 로고타입 (블랙)</span>
+            <a class="asset-dl" href="data:image/png;base64,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" download="이지랩_02.png">다운로드</a>
+          </div>
+        </div>
+        <div class="asset-card">
+          <div class="asset-preview" style="background:#1a1a1a;border:1px solid #333">
+            <img src="data:image/png;base64,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" alt="ezLab 로고타입 (화이트)">
+          </div>
+          <div class="asset-info">
+            <span class="asset-name">ezLab 로고타입 (화이트)</span>
+            <a class="asset-dl" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJAAAABBCAYAAAA+JC0yAAAAAXNSR0IArs4c6QAAAARzQklUCAgICHwIZIgAAAbASURBVHhe7Zw7qF5FEMfzVZpKbTRooYWgKIJiIahgoaAgmNKgEAIKEax9dbfz1SokoCCCsbIwEDCSdDGVYNpIihuwMGk0laa6/uc6e9hvz+6Z2d2z5yTLXDh89+bbxzx+uzs7uyebA/ZjFqiwwKairlU1CxwwgAyCKgsYQFXms8oGkDFQZQEDqMp8VtkAMgaqLGAAVZnPKhtAxkCVBQygKvNZZQPIGKiygAFUZT6rbAB1wMDe3t45qPGioMpnm83mg7nVNYDmtugK7RlADY0O436K5t8XuriK0flQQzGaNm0ANTSvATQY15awEs4MIAOohJuhjgFkABlAggUsBqpCZLqyzUA2A1XhZQDdIgDBER9ClJfwPMwiHcLnHXiu8t9X8HkF2+F3tB5Hm7so+6C2vKYc+t/Kba0JEPp+GTIfxfMYnnsCXW/g77/JZnjOQexPnH6o9xt+fzKmb6gflclZwlD2BKo8g+d+PPd6fVzH73/huYznNPr5WmVvqRA6/BFlXsBzl1SWv7+Jzwt4PocQZ6fqNADoJvq80+9zDYAYnPcgx/N4aJBpfgioXwkmPB+nKlQAdBFtPp7hx0so+4UEUjITzYY/ntFhqDOB9AMEeDNljAYAnUd/NEsOP0sDxCP8WAY4GriGMhUAZfXjFR7Z1G8oChCM8B0KvVHaY1DvEpR+KtbWzADRCH49nPWWBGhmu0XNvwJAJEfShyOAGhkhKsDMAJ2KzXZLAdTIbiOIVgIoCVFJwFk6MVFgdjhYXnbx9xxBdPIsawmAeIOx02rZ2loygk0CfacMokv95tcbDdIQINoVaINlt/vSAkAx0bt+UDbjDJQ851kIoLkGgujkFWcgko18eNgPEwaAlFMwNXA2MpPQ1vCIAr6tpQx9/oI6DwhWkwBNrs88OpuexisB9VUkG/7J/3C3wmZb5pkRIDcBHEQH/nZegngrqPYBkmYfUnzHz1cEyxHlPL5VCPOKtL137XIK4bUJjUazWlhW6eDi6xxTOZtAFsqzfBNe6mL5jinstt9cJUDRFAtkeAtNU9rhEYkefH8DMhD4/8vDo5SShMncA5ed3M5xO5rRHg12I44nICkHNZVHmUumGoD+FWQk1Wi0H08NHM4bnUQZabatAWhyAmD/0YrwrAKij9xE4gAiR02NdGrzFJ4/FI1LuaPJJce1z8vblDLRbXsERA3URQBx8CwNvFHcELMhQyQNmBqARpuYhBy7CpCHthxAWvIU/IhFRGfxlPqV0JJ2JmsJEMV+NGCmfi5itD4nWgUFFIOmFKBRhj4ljzIWHmZ+B5CGOo0NNGWuw6D3TRVU7M5ECL2ZrCVAmsvsJ6Gv6nyQs9iTQBbGQDn2otDhJ8GRQ3trABQdRZkOV1/PbBlEK/Mvs8raGiDyA/Tau5UBmhwNkF3aDV6GER/VTHVsjLVnINVSy7KKS2JrgDgWy56BNDHQea3ThHLXYkcObEBNMP+2n4yUZGo8A2ngVG0aWH/RD4UANY+BNIenWY6THBt+r9yFiNv2SLsaJ6tjBL995S6Mqoi2U+pfGkSTDE13YZRIknY94kji0f60AM/3sRlEkZBTbYcLAdpP8mVA/7vTAXJr8kDU/tHbIA+UvMgW2GY7D8TT5zV8Sint5HrOo3EHbUwl/qIQKEeyu8En+fmEny1XLmFSm+H3w0yoAN/VJfnPhMt3F5loBkizjFFRuqn2s0vJs/PpEpf0bvZ+XdQb3Q1SbNtzHLy161kAIM0S6cvvn4W5a8Fq/QpjoFj77iws9zwufhaWMQuplQ0KpmYfceeR2eGiALHddvEpHkNk6hEtPiNAJeKkT+PZEJozsZKOqU40oabYtuf2twZAFEN+iUd7/zlXp6H8ygCNfLjUjcRoOl+ZiMs19uIAZYYAufpslV8RoGj4scSd6OjWW7ttLbD2KgAtBdFKAOnvRDuHcXBMS5r2hmLoa1ov6f5L9BwoY/eSy9BqADFEFFRLNxJSOpHNKJ5K3sspAIje8/oHT/Q9M4Vx89/K8Bvl09lXM0BSvRc2887LF3lVgBgiOpDMfS9seA9rKi4sAGjfHnxQq7k16mxZ915YSKa3XXdvprpdByXJiPDsN1MV9N/2RdhxT0ARurrrb9uL3gStNQjLQ2+mhm/K0raekqLzvplaK7DV79sC9n8k9u3f5toZQM1N3HcHBlDf/m2unQHU3MR9d2AA9e3f5toZQM1N3HcHBlDf/m2unQHU3MR9d2AA9e3f5toZQM1N3HcHBlDf/m2unQHU3MR9d2AA9e3f5toZQM1N3HcHBlDf/m2unQHU3MR9d/AffAu0b9RB4YMAAAAASUVORK5CYII=" download="이지랩_03.png">다운로드</a>
+          </div>
+        </div>
+        <div class="asset-card">
+          <div class="asset-preview" style="background:#f5f5f5;border:1px solid #e8e8e8">
+            <img src="data:image/png;base64,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" alt="ezLab 로고 (레드 + 블랙)">
+          </div>
+          <div class="asset-info">
+            <span class="asset-name">ezLab 로고 (레드 + 블랙)</span>
+            <a class="asset-dl" href="data:image/png;base64,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" download="ezLab_01.png">다운로드</a>
+          </div>
+        </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>이지메모 · 유튜브 협찬 영상 제작 가이드 · 크리에이터 전달용 내부 문서 · 외부 공유 금지</p>
+  </footer>
+
+</div>
+
+<script>
+  /* 목차 스크롤 */
+  document.querySelectorAll('a.toc-item').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  /* 체크 토글 */
+  function toggleCheck(el) {
+    el.classList.toggle('checked');
+  }
+
+  /* 그룹 접기/펼치기 */
+  function toggleGroup(id) {
+    const group = document.getElementById(id);
+    const body  = group.querySelector('.cl-body');
+    const toggle = group.querySelector('.cl-toggle');
+    const icon   = group.querySelector('.cl-toggle-icon');
+
+    const isCollapsed = group.classList.contains('collapsed');
+    if (isCollapsed) {
+      group.classList.remove('collapsed');
+      body.style.maxHeight = body.scrollHeight + 'px';
+      toggle.innerHTML = '<i class="cl-toggle-icon">▾</i> 접기';
+    } else {
+      body.style.maxHeight = body.scrollHeight + 'px'; // set before collapsing for transition
+      requestAnimationFrame(() => {
+        group.classList.add('collapsed');
+        toggle.innerHTML = '<i class="cl-toggle-icon" style="transform:rotate(-90deg);display:inline-block">▾</i> 펼치기';
+      });
+    }
+  }
+
+  /* 초기 max-height 설정 */
+  document.querySelectorAll('.cl-body').forEach(b => {
+    b.style.maxHeight = b.scrollHeight + 'px';
+  });
+</script>
+</body>
+</html>
